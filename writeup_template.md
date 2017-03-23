@@ -18,11 +18,21 @@ The goals / steps of this project are the following:
 [image1]: ./barchart.png "Visualization"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image4]: ./(1).png "Traffic Sign 1"
+[image5]: ./(2).png "Traffic Sign 2"
+[image6]: ./(3).png "Traffic Sign 3"
+[image7]: ./(4).png "Traffic Sign 4"
+[image8]: ./(5).png "Traffic Sign 5"
+[image9]: ./(6).png "Traffic Sign 6"
+[image10]: ./(7).png "Traffic Sign 7"
+[image11]: ./(8).png "Traffic Sign 8"
+[image12]: ./(9).png "Traffic Sign 9"
+[image13]: ./(10).png "Traffic Sign 10"
+[image14]: ./(11).png "Traffic Sign 11"
+[image15]: ./(12).png "Traffic Sign 12"
+[image16]: ./(13).png "Traffic Sign 13"
+[image17]: ./(14).png "Traffic Sign 14"
+[image18]: ./(15).png "Traffic Sign 15"
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -84,50 +94,49 @@ My final model consisted of the following layers:
 | Convolution 3x3	    | 5x5x32, valid padding, outputs 2x2x64      									|
 | RELU					|												|     
 | Fully connected		| input: 2816 (layer-2 and layer3, RGB and gray), output: 352 	|  
+| RELU					|												|     
+| Dropout					|						0.5						|     
 | Fully connected		| input: 352, output: 176      									|  
+| RELU					|												|     
+| Dropout					|						0.5						|     
 | Fully connected		| input: 176, output: 43      									|  
 | Softmax				| etc.        									|  
 |						|												|  
 |						|												|  
  
+I used the dropout only for two fully connected layers, as this appeared to be the best choice.
 
+####4. Model training
 
-####4. Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+The code for training the model is located in cellы 15-19 of the ipython notebook. I used the AdamOptimizer with rate = 0.001, and also included the L2 loss for reguralization with beta = 0.001. The rest of the code is similar to the one used in LeNet lab. I calculated the training and validation accuracy after each epoch. After the training is finished, i calculated the test accuracy.
 
-The code for training the model is located in the eigth cell of the ipython notebook. 
+####5. The approach taken for finding a solution
 
-To train the model, I used an ....
-
-####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
-The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
+The architecture used includes 2 separate convolutional nets of three layers, which receive RGB and grayscale images as inputs. This looked like a good idea, because this could combine advantages of each image encoding, providing more features to the network. Moreover, the fully connected layer gets inputs not only from last convolutional layer, but also from previous one, so that the network is capable of getting both high-level and low-level features - some of them could be of much importance for classification.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 0.999
+* validation set accuracy of 0.974
+* test set accuracy of 0.961
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to over fitting or under fitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+The iterative structure tuning procedure was the following:
+* First I tried the classical LeNet architecture, which resulted in accuracy of around 0.89.
+* This looked like underfitting, so I have increased the width of the model - made deeper convolutions, but kept the number of layers same.
+* Various experiments with LeNet architecture got me to the conclusion that it is not cabable enough - the problem is more complicated, so larger architectures should be used. First experiments were including more fully connected and convolutional layers - this gave a little performance boost. I ended up with 3 convolutions and 3 fully connected layers. Adding more parameters to these, as well as adding connections from conv2 and conv3 layers to first fully connected by Yann LeCun's recomendation in his paper on German traffic signs detection resulted in 100% trainig accuracy, however, validation accuracy was still quite low - around 96%. So the next step was to introduce regularisation - I tried to apply L2 loss, which gave a little result, but including dropout was much more effective - I was able to get around 97.5% accuracy on validation set. However, dropout appeared to be good only for two fully connected layers - adding it to convolutions decreased the performance. After all this, I have added the grayscale images and made a second 'branch' of the network to process them, shich resulted in validation accuracy reaching 98%. At the end, the test accuracy that I got was around 0.961.
+* Testing each architecture included trying different sigmas for the initialization, but at the end 0.05 appeared to be a good choise. Larger values gave a lot of overfitting, while smaller values resulted in a much longer training.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
 
-###Test a Model on New Images
+###Testing a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+####1. Get different German traffic signs
 
-Here are five German traffic signs that I found on the web:
+I have asked my colleague living in Germany to make some photos of traffic signs. Here is what I got:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image7] ![alt text][image8] ![alt text][image9] 
+![alt text][image10] ![alt text][image11] ![alt text][image12] 
+![alt text][image13] ![alt text][image14] ![alt text][image15] 
+![alt text][image16] ![alt text][image17] ![alt text][image18]
 
 The first image might be difficult to classify because ...
 
