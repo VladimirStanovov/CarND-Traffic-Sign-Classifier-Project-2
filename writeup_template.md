@@ -16,8 +16,6 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./barchart.png "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./(1).png "Traffic Sign 1"
 [image5]: ./(2).png "Traffic Sign 2"
 [image6]: ./(3).png "Traffic Sign 3"
@@ -116,8 +114,8 @@ The architecture used includes 2 separate convolutional nets of three layers, wh
 
 My final model results were:
 * training set accuracy of 0.999
-* validation set accuracy of 0.974
-* test set accuracy of 0.961
+* validation set accuracy of 0.982
+* test set accuracy of 0.963
 
 The iterative structure tuning procedure was the following:
 * First I tried the classical LeNet architecture, which resulted in accuracy of around 0.89.
@@ -138,38 +136,58 @@ I have asked my colleague living in Germany to make some photos of traffic signs
 ![alt text][image13] ![alt text][image14] ![alt text][image15] 
 ![alt text][image16] ![alt text][image17] ![alt text][image18]
 
-The first image might be difficult to classify because ...
+The tenth image might be difficult to classify because it is highly blurred due to camera jump.
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+####2. Model predictions discussion
 
-The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
+The code for making predictions on my final model is located in cells 22-24 of the Ipython notebook.
 
 Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Priority road      		| Priority road   									| 
+| No entry    			| No entry									|
+| Speed limit (50km/h)					| Speed limit (50km/h)											|
+| Keep right    		| Keep right					 				|
+| Keep right		| Keep right     							|
+| No entry      		| No entry  									| 
+| Right-of-way at the next intersection     			| Right-of-way at the next intersection 										|
+| Road work					| Road work											|
+| Keep right	      		| Keep right				 				|
+| Stop			| Stop      							|
+| No vehicles      		| No vehicles   									| 
+|  Road work    			|  Road work 										|
+| Turn right ahead					| Turn right ahead											|
+| Ahead only      		| Ahead only					 				|
+| Speed limit (30km/h)			| Speed limit (30km/h)      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 15 of the 15 traffic signs, which gives an accuracy of 100%. Although this looks like a perfect result (the data is quite clean), restarting the whole notebook with all the cells may give one or 2 misclassifications. In particular, the Stop sign is sometimes classified as Speed limit (50km/h), because the image is blurred. This is a typical error of the trained network, although it does not always happen. Moreover, the No vehicles sign could be sometimes classified as some spped limit sign, because it has the same shape, but missing numbers in the middle.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+####3. Describing top five predictions
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 25th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+Most of the images have the probablilty of 1 for the correct class, while others are 10E-7 and even smaller. For some signs the probability is in range [0.9,1], while others are almost misclassified.
+For the 10-th image, the model is not so sure that this is a stop sign (probability of 0.309), and the image does contain a stop sign. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .309        			| Stop sign   									| 
+| .232     				| General caution 										|
+| .209					| Speed limit (70km/h)											|
+| .066	      			| Yield 				 				|
+| .056				    | End of speed limit (80km/h)      							|
 
+For the 11-th image, the prbability of the correct class is 0.472, which is also quite low.
 
-For the second image ... 
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .472        			| No vehicles  									| 
+| .396     				| Speed limit (30km/h) 										|
+| .037					| Speed limit (120km/h) 										|
+| .023	      			| Speed limit (70km/h) 				 				|
+| .016				    | Stop      							|
+
+The second largest probability is for 30km/h sign, which is widely presented in the dataset, so this unsureness of the model could be due to the class imbalance in the data - there are really a lot of speed limit signs, which have the shape similar to the No vehicles sign, as well as other ones.
