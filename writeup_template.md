@@ -64,7 +64,7 @@ The grayscale images are appended to the original data, so that each image now h
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
-|:---------------------:|:--------------------------------------------------------:| 
+|:---------------------:|:--------------------------:|:----------------------------:| 
 | Input         		| 32x32x3 RGB image   							|    32x32x1 grayscale image
 | Convolution 3x3     	| 1x1 stride, valid padding, outputs 28x28x24 	| 1x1 stride, valid padding, outputs 28x28x24 	|
 | RELU					|												|
