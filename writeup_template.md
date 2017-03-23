@@ -50,51 +50,26 @@ Here I have imported the sign names from signnames.csv file and created an array
 ![alt text][image1]
 
 The dataset appears to be imbalanced, with maximum imbalance ration of around 10.
+After this I have also added a visualization of a random sign - just to be sure that everything is good.
 
 ###Design and Test a Model Architecture
 
-####1. Describe how, and identify where in your code, you preprocessed the image data. What tecniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
+As a first step, I decided to convert the images to grayscale because several papers on image classification with convolutional neural networks appear to show better performance on grayclaed images.
+The grayscale images are appended to the original data, so that each image now has 32x32x4 size.
 
-The code for this step is contained in the fourth code cell of the IPython notebook.
+####2. I have also tried artificial balancing of the dataset by generating additional images of minority classes, so that the number of instance for each class equal to 2010. This preprocessing step included jittering the image, as well as adding random noise. Howerer it appeard that this does not deliver any accuracy improvements (it actually makes it even worse), so this code was deleted from the final version.
 
-As a first step, I decided to convert the images to grayscale because ...
-
-Here is an example of a traffic sign image before and after grayscaling.
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
-
-####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
-
-The code for splitting the data into training and validation sets is contained in the fifth code cell of the IPython notebook.  
-
-To cross validate my model, I randomly split the training data into a training set and validation set. I did this by ...
-
-My final training set had X number of images. My validation set and test set had Y and Z number of images.
-
-The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because ... To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
-####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
-
-The code for my final model is located in the seventh cell of the ipython notebook. 
+####3. The model architecture is following: the image is split into two separate parts, i.e. color image and grayscale. For each of these two three layers of convolutions are used, folloed by three fully connected layers. First fully connected layer includes conntections to both second and third convolution layers.
 
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+|:---------------------:|:--------------------------------------------------------:| 
+| Input         		| 32x32x3 RGB image   							|    32x32x1 grayscale image
+| Convolution 3x3     	| 1x1 stride, valid padding, outputs 28x28x24 	| 1x1 stride, valid padding, outputs 28x28x24 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x24 				|   2x2 stride,  outputs 14x14x24 				|
+| Convolution 3x3	    | 14x14x24      									| 14x14x24      									|
 | Fully connected		| etc.        									|
 | Softmax				| etc.        									|
 |						|												|
