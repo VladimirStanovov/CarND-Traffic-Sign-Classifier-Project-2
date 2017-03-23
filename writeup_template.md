@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./featuremap.png "Visualization"
+[image1]: ./barchart.png "Visualization"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
@@ -25,36 +25,31 @@ The goals / steps of this project are the following:
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
+Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+##Writeup
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
+Here is a link to my [project code](https://github.com/VladimirStanovov/CarND-Traffic-Sign-Classifier-Project-2/blob/master/Traffic_Sign_Classifier.ipynb)
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+##Data Set Summary & Exploration
 
-###Data Set Summary & Exploration
+After loading the data in the first code cell, I used the .shape of each array to get the size of the trainig, validation and test sets, as well as the image shape. To figure out what is the number of unique classes, I used a little function that created a dictionary of unique class numbers.
 
-####1. Provide a basic summary of the data set and identify where in your code the summary was done. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+* The size of training set is 34799
+* The size of test set is 12630
+* The shape of a traffic sign image is 32x32x3
+* The number of unique classes/labels in the data set is 43
 
-The code for this step is contained in the second code cell of the IPython notebook.  
+After this I have also calculated the number of instances in each class.
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+##2. Include an exploratory visualization of the dataset and identify where the code is in your code file.
 
-* The size of training set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
-
-####2. Include an exploratory visualization of the dataset and identify where the code is in your code file.
-
-The code for this step is contained in the third code cell of the IPython notebook.  
-
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here I have imported the sign names from signnames.csv file and created an array signNames filled with text interpretation of each class number. Next, I used the matplotlib to plot a bar chart of number of instances for each class:
 
 ![alt text][image1]
+
+The dataset appears to be imbalanced, with maximum imbalance ration of around 10.
 
 ###Design and Test a Model Architecture
 
